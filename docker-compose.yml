@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:///./data/compliance.db
+      - FAISS_PATH=/app/data/faiss/ra.index
+
+  web:
+    build: ./web
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
